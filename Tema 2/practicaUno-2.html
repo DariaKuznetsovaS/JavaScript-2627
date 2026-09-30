@@ -49,7 +49,7 @@
         <input type="text" id="nombre">
         
         <label for="apellidos">Apellidos:</label>
-        <input type="password" id="apellidos">
+        <input type="text" id="apellidos">
 
         <label for="email">Correo electrónico:</label>
         <input type="email" id="email">
@@ -81,65 +81,141 @@
     </form>
 
     <script>
-    document.getElementById("bEnviar").addEventListener("click", enviarDatos);
-    document.getElementById("bBorrar").addEventListener("click", borrarDatos);
+document.getElementById("bEnviar").addEventListener("click", enviarDatos);
+document.getElementById("bBorrar").addEventListener("click", borrarDatos);
 
-    function enviarDatos(){
-        try{
-        //let datos=[]; No porque se guardaria en el localStorage
-        let nombre=document.getElementById("nombre").value;
-        let apellidos=document.getElementById("apellidos").value;
-        let email=document.getElementById("email").value;
-        let poblacion=document.getElementById("poblacion").value;
-        let provincia=document.getElementById("provincia").value;
-        //A ver cómo se coge un valor de los radios
-        let edad=document.getElementsByName("edad");
-        for(let x=0; x<edad.length&&!edad[x].checked; x++){
-           //let edadSeleccionada=edad[x].checked;
-        }
-        //Hay que revisarlo:
-        let info=document.getElementsByName("info"); //.value; SIN VALUE
-        for(let x=0; x<info.length; x++){
-            if(info[x].checked){
-                //let infoSeleccionada=info++;   
-            }
-            
-        }
-        if(!nombre.isEmpty||!apellidos.isEmpty||!email.isEmpty||!poblacion.isEmpty||!provincia.isEmpty||!edadSeleccionada.isEmpty
-            ||!infoSeleccionada.isEmpty){
-               validarDato(dato);
+function enviarDatos() {
 
-             
-                
-            } else{
-                throw new Error("Todos los campos deben ser cumplimentados");
+    try {
+
+        let nombre = document.getElementById("nombre").value;
+        let apellidos = document.getElementById("apellidos").value;
+        let email = document.getElementById("email").value;
+        let poblacion = document.getElementById("poblacion").value;
+        let provincia = document.getElementById("provincia").value;
+
+        // RADIO BUTTONS
+
+        let edad = document.getElementsByName("edad");
+        let edadSeleccionada = "";
+
+        for (let x = 0; x < edad.length; x++) {
+
+            if (edad[x].checked) {
+                edadSeleccionada = edad[x].value;
             }
-        } catch(err){
-            alert(err.message);
+
         }
+
+        // CHECKBOXES
+
+        let info = document.getElementsByName("info");
+        let infoSeleccionada = [];
+
+        for (let x = 0; x < info.length; x++) {
+
+            if (info[x].checked) {
+                infoSeleccionada.push(info[x].value);
+            }
+
+        }
+
+        // VALIDAR CAMPOS
+
+        if (!nombre || !apellidos || !email || !poblacion || !provincia) {
+            throw new Error("Todos los campos deben ser cumplimentados");
+        }
+
+        if (!edadSeleccionada) {
+            throw new Error("Debes seleccionar una edad");
+        }
+
+        if (infoSeleccionada.length === 0) {
+            throw new Error("Debes indicar cómo nos has conocido");
+        }
+
         
-    }
+        // VALIDAR CON REGEX
 
-    function validarDato(dato){
-        switch(dato){
-            case nombre:
-               // test(nombre.)
+        if (!validarDato(nombre, "nombre")) {
+            throw new Error("El nombre no es válido");
         }
-                localStorage.setItem("nombre",nombre);
-                localStorage.setItem("apellidos",apellidos);
-                localStorage.setItem("email",email);
-                localStorage.setItem("poblacion",poblacion);
-                localStorage.setItem("provincia",provincia);
-                localStorage.setItem("edad",edadSeleccionada);
-                localStorage.setItem("info",infoSeleccionada);
+
+        if (!validarDato(apellidos, "apellidos")) {
+            throw new Error("Los apellidos no son válidos");
+        }
+
+        if (!validarDato(email, "email")) {
+            throw new Error("El email no es válido");
+        }
+
+        if (!validarDato(poblacion, "poblacion")) {
+            throw new Error("La población no es válida");
+        }
+
+        if (!validarDato(provincia, "provincia")) {
+            throw new Error("La provincia no es válida");
+        }
+
+        // CREAR OBJETO 
+
+        let datos = {
+            nombre: nombre,
+            apellidos: apellidos,
+            email: email,
+            poblacion: poblacion,
+            provincia: provincia,
+            edad: edadSeleccionada,
+            info: infoSeleccionada
+        };
+        // CONVERTIR OBJETO A JSON
+
+        let datosJSON = JSON.stringify(datos);
+
+        // GUARDAR EN LOCALSTORAGE
+
+        localStorage.setItem("datos", datosJSON);
+        
+        // MOSTRAR EN ALERT
+
+        alert(datosJSON);
+
+    } catch (err) {
+
+        alert(err.message);
+
     }
+}
 
+function validarDato(dato, tipo) {
 
+    switch (tipo) {
 
+        case "nombre":
+            return /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/.test(dato);
 
-    function borrarDatos(){
-        localStorage.clear();
+        case "apellidos":
+            return /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/.test(dato);
+
+        case "email":
+            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(dato);
+
+        case "poblacion":
+            return /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/.test(dato);
+
+        case "provincia":
+            return /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/.test(dato);
+
+        default:
+            return false;
     }
+}
+
+
+function borrarDatos() {
+    localStorage.clear();
+}
+</script>
 
 
     
