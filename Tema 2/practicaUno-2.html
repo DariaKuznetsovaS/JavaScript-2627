@@ -1,0 +1,152 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+	<title>Practica Uno, eje 2</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <style>
+        *{box-sizing: border-box;
+        padding: 0;
+        margin: 0;
+        font-family: sans-serif;
+        }
+        
+        form{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 1rem;
+        width: 30%;
+        margin: 0 auto;
+        margin-top: 2rem;
+        gap: 1rem;
+        }
+        label{
+        font-weight: bold;
+        }
+        input{
+        background-color: lightblue;
+        padding: .5rem;
+        
+        }
+
+        input:hover{
+        background-color: lightyellow;
+        }
+        .botones{
+            display:flex;
+            flex-direction: row;
+            gap: 1rem;
+        }
+    </style>
+
+</head>
+<body>
+    <form>
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre">
+        
+        <label for="apellidos">Apellidos:</label>
+        <input type="password" id="apellidos">
+
+        <label for="email">Correo electrónico:</label>
+        <input type="email" id="email">
+
+        <label for="poblacion">Población:</label>
+        <input type="text" id="poblacion">
+
+        <label for="provincia">Provincia</label>
+        <input type="text" id="provincia">
+
+        <p>Edad:</p>
+
+        <p><input type="radio" value="0-20" name="edad"> 0-20</p>
+        <p><input type="radio" value="20-40" name="edad"> 20-40</p>
+        <p><input type="radio" value="40-60" name="edad"> 40-60</p>
+        <p><input type="radio" value="60-100" name="edad">60-100</p>
+
+        <p>¿Cómo nos has conocido?</p>
+        <p> <input type="checkbox" name="info" value="amigo">Através de un amigo.</p>
+        <p> <input type="checkbox" name="info" value="buscador">Através de un buscador</p>
+        <p> <input type="checkbox" name="info" value="red">Navegando por la red</p>
+        <p> <input type="checkbox" name="info" value="otro">Otros</p>
+
+        
+        <div class="botones">
+        <input type="button" id="bEnviar" value="Enviar formulario">
+        <input type="button" id="bBorrar" value="Borrar">
+        </div>
+    </form>
+
+    <script>
+    document.getElementById("bEnviar").addEventListener("click", enviarDatos);
+    document.getElementById("bBorrar").addEventListener("click", borrarDatos);
+
+    function enviarDatos(){
+        try{
+        //let datos=[]; No porque se guardaria en el localStorage
+        let nombre=document.getElementById("nombre").value;
+        let apellidos=document.getElementById("apellidos").value;
+        let email=document.getElementById("email").value;
+        let poblacion=document.getElementById("poblacion").value;
+        let provincia=document.getElementById("provincia").value;
+        //A ver cómo se coge un valor de los radios
+        let edad=document.getElementsByName("edad");
+        for(let x=0; x<edad.length&&!edad[x].checked; x++){
+           //let edadSeleccionada=edad[x].checked;
+        }
+        //Hay que revisarlo:
+        let info=document.getElementsByName("info"); //.value; SIN VALUE
+        for(let x=0; x<info.length; x++){
+            if(info[x].checked){
+                //let infoSeleccionada=info++;   
+            }
+            
+        }
+        if(!nombre.isEmpty||!apellidos.isEmpty||!email.isEmpty||!poblacion.isEmpty||!provincia.isEmpty||!edadSeleccionada.isEmpty
+            ||!infoSeleccionada.isEmpty){
+               validarDato(dato);
+
+             
+                
+            } else{
+                throw new Error("Todos los campos deben ser cumplimentados");
+            }
+        } catch(err){
+            alert(err.message);
+        }
+        
+    }
+
+    function validarDato(dato){
+        switch(dato){
+            case nombre:
+               // test(nombre.)
+        }
+                localStorage.setItem("nombre",nombre);
+                localStorage.setItem("apellidos",apellidos);
+                localStorage.setItem("email",email);
+                localStorage.setItem("poblacion",poblacion);
+                localStorage.setItem("provincia",provincia);
+                localStorage.setItem("edad",edadSeleccionada);
+                localStorage.setItem("info",infoSeleccionada);
+    }
+
+
+
+
+    function borrarDatos(){
+        localStorage.clear();
+    }
+
+
+    
+
+
+    </script>
+
+</body>
+
+</html>

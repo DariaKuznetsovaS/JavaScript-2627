@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+	<title>Practica Uno, eje 1</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <style>
+        *{box-sizing: border-box;
+        padding: 0;
+        margin: 0;
+        font-family: sans-serif;
+        }
+        
+        form{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: lightblue;
+        padding: 1rem;
+        width: 30%;
+        margin: 0 auto;
+        margin-top: 2rem;
+        border: dotted;
+        border-radius: 1rem;
+        }
+        label{
+        font-weight: bold;
+        }
+        input{
+        background-color: pink;
+        padding: .5rem;
+        border-radius: .5rem;
+        }
+
+        input:hover{
+        background-color: lightyellow;
+        }
+    </style>
+
+</head>
+<body>
+    <form>
+        <label for="user">Nombre de usuario:</label>
+        <input type="text" id="user" placeholder="Usuario">
+        <br>
+        <label for="contraseña">Password:</label>
+        <input type="password" id="contraseña" placeholder="Contraseña">
+        <br>
+        <div="botones">
+        <input type="button" id="bEntrar" value="Entrar">
+        <input type="button" id="bSalir" value="Salir">
+        </div>
+    </form>
+
+    <script>
+    let usuarios = new Map();
+
+    usuarios.set("user", "12345Abcde");
+    usuarios.set("qwerty", "Qwerty123");
+
+    
+
+    document.getElementById("bEntrar").addEventListener("click", registrarUsuario);
+    document.getElementById("bSalir").addEventListener("click", salir);
+
+    function registrarUsuario() {
+    try {
+    let user=document.getElementById("user").value; //El value tiene que estar en una función
+    let contraseña=document.getElementById("contraseña").value;
+    
+    if(user===""||contraseña===""){
+    throw new Error("Los campos son obligatorios");
+    }
+
+    else if (validarUsuario(user) && validarContraseña(contraseña)) {
+
+    if (!usuarios.has(user) && !usuarios.get(user) === contraseña) {
+        throw new Error("Usuario y/o contraseña incorrecta");
+        
+    } else {
+        alert("Bienvenid@, " + user);
+    }
+
+    }
+
+    } catch (err) {
+    alert(err.message);
+    }
+    }
+
+    function salir(){
+        alert("Adiós");
+    }
+
+    function validarUsuario(user) {
+    try {
+  
+    let regEx = /^[0-9A-Za-z]{4,10}$/;
+
+    if (regEx.test(user)) {
+    return true;
+    } else {
+    throw new Error("El nombre del usuario no es válido");
+    }
+
+    } catch (err) {
+    alert(err.message);
+    return false;
+    }
+    }
+
+    function validarContraseña(contraseña) {
+    try {
+    /*
+    Debe tener al menos 8 caracteres,
+    al menos una letra mayúscula,
+    una minúscula y un número
+    */
+
+    let regEx = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,}$/;
+
+    if (regEx.test(contraseña)) {
+    return true;
+    } else {
+    throw new Error("La contraseña no cumple el patrón");
+    }
+
+    } catch (err) {
+    alert(err.message);
+    return false;
+    }
+    }
+    
+
+    
+
+
+    </script>
+
+</body>
+
+</html>
