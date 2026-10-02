@@ -79,6 +79,7 @@
         <input type="button" id="bBorrar" value="Borrar">
         </div>
     </form>
+    
 
     <script>
 document.getElementById("bEnviar").addEventListener("click", enviarDatos);
@@ -178,7 +179,9 @@ function enviarDatos() {
         
         // MOSTRAR EN ALERT
 
-        alert(datosJSON);
+        mostrarInformacion(datos);
+
+        
 
     } catch (err) {
 
@@ -186,6 +189,22 @@ function enviarDatos() {
 
     }
 }
+function mostrarInformacion(datos) {
+
+    let mensaje = "";
+
+    for (let dato in datos) {
+
+        if (Array.isArray(datos[dato])) {
+            mensaje += dato + ": " + datos[dato].join(", ") + "\n";
+        } else {
+            mensaje += dato + ": " + datos[dato] + "\n";
+        }
+    }
+
+    alert(mensaje);
+}
+
 
 function validarDato(dato, tipo) {
 
