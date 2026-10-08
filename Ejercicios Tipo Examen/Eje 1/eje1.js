@@ -27,85 +27,37 @@ function obtenerUsuario() {
     }
 }
 
-function validarUser(user) {
-    let regEx = /^[A-Za-z]{4,20}$/;
-    return regEx.test(user);
+function validarUser(user){
+let regEx="^[A-za-Z]{4,20}$";
+if(!test(user, regEx)){
+    return false;
+}
+return true;
 }
 
-function validarContraseña(contraseña) {
-    let regEx = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,}$/;
-
-    return regEx.test(contraseña);
+function validarContraseña(contraseña){
+    if(!test(contraseña,"^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,}$")){
+        return false;
+    }
+    return true;
 }
 
 
-function entrar() {
-
-    let usuario = obtenerUsuario();
-
-    if (!usuario) {
-        return;
+function entrar(){
+    try{
+    let usuario=obtenerUsuario();
+    if(!usuario){
+        throw new("El user está vacío");
     }
-
-    let usuarios;
-
-    if (localStorage.getItem("usuarios")) {
-        usuarios = new Map(JSON.parse(localStorage.getItem("usuarios")));
-    }
-    else {
-        usuarios = new Map();
-    }
-
-    if (usuarios.has(usuario.userName)) {
-
-        let datosUsuario = usuarios.get(usuario.userName);
-
-        if (datosUsuario.pass === usuario.pass) {
-            alert("Bienvenido " + datosUsuario.nombreCompleto);
-        }
-        else {
-            alert("Usuario y/o contraseña incorrectos");
-        }
-
-    }
-    else {
-        alert("Usuario y/o contraseña incorrectos");
-    }
+}catch(err){
+    alert(err,message);
+}
 }
 
-function registrar() {
+function registrar(){
 
-    let usuario = obtenerUsuario();
-
-    if (!usuario) {
-        return;
-    }
-
-    let usuarios;
-
-    if (localStorage.getItem("usuarios")) {
-        usuarios = new Map(JSON.parse(localStorage.getItem("usuarios")));
-    }
-    else {
-        usuarios = new Map();
-    }
-
-    if (usuarios.has(usuario.userName)) {
-        alert("El usuario ya existe");
-        return;
-    }
-
-    let nombreCompleto = document.getElementById("nombreCompleto").value;
-
-    usuarios.set(usuario.userName, {
-        pass: usuario.pass,
-        nombreCompleto: nombreCompleto
-    });
-
-    localStorage.setItem("usuarios", JSON.stringify([...usuarios]));
-
-    alert("Usuario registrado correctamente");
 }
+
 
 
 
