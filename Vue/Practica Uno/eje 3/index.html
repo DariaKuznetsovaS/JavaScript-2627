@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Ejercicio 3 - Contador</title>
+</head>
+<body>
+
+    <contador-clicks inicio="0" max="10"></contador-clicks>
+
+    <script src="contador-clicks.js"></script>
+
+    <script>
+        const contador = document.querySelector('contador-clicks');
+
+        contador.addEventListener('cambio', (event) => {
+            console.log('Nuevo valor:', event.detail);
+        });
+    </script>
+
+</body>
+</html>
